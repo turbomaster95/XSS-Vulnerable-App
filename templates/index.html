@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% autoescape false %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>XSS Vulnerable Site</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"><script>
+        document.cookie ="Flag=flag{goktylol}"
+    </script> 
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    <header>
+      <h1>XSS Vulnerable Site</h1>
+      <p>Try To Exploit Me Using XSS!</p>
+    </header>
+
+    <!-- Search form -->
+    <form method="GET">
+      <input type="text" name="q" 
+             placeholder="Search query" autocomplete="off" />
+      <input type="submit" value="Filter comments" />
+    </form>
+
+    <!-- Comments -->
+    {% if not search_query %}
+      <h3>Showing all comments:</h3>
+    {% else %}
+      <h3>Showing comments containing "{{ search_query }}":</h3>
+    {% endif %}
+
+    {% for comment in comments %}
+      <div title={{ comment }}>>
+        <p>{{ comment }}</p>
+      </div>
+    {% endfor %}
+
+    <!-- Write form -->
+    <form action="/" method="POST">
+      <input type="text" name="comment" 
+             placeholder="Comment" autocomplete="off" />
+      <input type="submit" value="Submit new comment" />
+    </form>
+    
+   <footer>
+     <p>This site is for educational purposes only!</p>
+     <p>Btw If LiveOverflow is Seeing this, Then i have to Say i am your Biggest Fan</p>
+   </footer>
+  </body>
+</html>
+{% endautoescape %}
